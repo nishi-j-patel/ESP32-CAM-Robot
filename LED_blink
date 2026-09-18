@@ -1,0 +1,38 @@
+const int pin12 = 12; // Maps to physical IO12
+const int pin13 = 13; // Maps to physical IO13
+
+const int pin14 = 15; // Maps to physical IO14
+const int pin15 = 14; // Maps to physical IO15
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(pin12, OUTPUT); 
+  pinMode(pin13, OUTPUT);
+  pinMode(pin14, OUTPUT);
+  pinMode(pin15, OUTPUT);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  digitalWrite(pin12, LOW);  // Turns the blue LED ON
+  digitalWrite(pin13, LOW); // Turns the blue LED OFF
+  digitalWrite(pin14, LOW); // Turns the blue LED OFF
+  digitalWrite(pin15, LOW); // Turns the blue LED OFF
+  delay(50);                 // Wait half a second
+  digitalWrite(pin12, HIGH);  // Turns the blue LED ON
+  digitalWrite(pin13, LOW); // Turns the blue LED OFF
+  digitalWrite(pin14, HIGH); // Turns the blue LED OFF
+  digitalWrite(pin15, LOW); // Turns the blue LED OFF
+  delay(2000);     
+  
+  digitalWrite(pin12, LOW);  // Turns the blue LED ON
+  digitalWrite(pin13, LOW); // Turns the blue LED OFF
+  digitalWrite(pin14, LOW); // Turns the blue LED OFF
+  digitalWrite(pin15, LOW); // Turns the blue LED OFF
+  delay(50);
+  digitalWrite(pin12, LOW);  // Turns the blue LED ON
+  digitalWrite(pin13, HIGH); // Turns the blue LED OFF
+  digitalWrite(pin14, LOW); // Turns the blue LED OFF
+  digitalWrite(pin15, HIGH); // Turns the blue LED OFF
+  delay(2000);                 // Wait half a second
+}
