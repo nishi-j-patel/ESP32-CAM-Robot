@@ -1,0 +1,66 @@
+// Define the single GPIO pins used for each sensor
+// Change these numbers to match your actual ESP32 wiring
+const int SENSOR1_PIN = 13; 
+const int SENSOR2_PIN = 14;
+
+void setup() {
+  Serial.begin(115200);
+  while (!Serial) { delay(10); } // Wait for serial monitor to open
+  Serial.println("--- Dual HC-SR04 Single-Pin Setup Initialized ---");
+}
+
+void loop() {
+  // Read both sensors sequentially
+  float distance1 = readSinglePinDistance(SENSOR1_PIN);
+  delay(30); // Small delay to prevent ultrasonic cross-talk waves between sensors
+  
+  float distance2 = readSinglePinDistance(SENSOR2_PIN);
+
+  // Print results to Serial Monitor
+  Serial.print("Sensor 1: ");
+  if (distance1 >= 0) {
+    Serial.print(distance1);
+    Serial.print(" cm\t| \n");
+  } else {
+    Serial.print("Out of range\t| \n");
+  }
+  Serial.print("Sensor 2: ");
+  if (distance2 >= 0) {
+    Serial.print(distance2);
+    Serial.println(" cm");
+  } else {
+    Serial.println("Out of range");
+  }
+  delay(1000); // Wait 200ms before taking the next pair of readings
+}
+
+// Function to trigger and read a distance using a single GPIO pin
+float readSinglePinDistance(int pin) {
+  // Step 1: Set pin as OUTPUT to send the trigger pulse
+  pinMode(pin, OUTPUT);
+  digitalWrite(pin, LOW);
+  delayMicroseconds(2);
+  
+  // Send a clean 10 microsecond HIGH pulse to trigger the HC-SR04
+  digitalWrite(pin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(pin, LOW);
+
+  // Step 2: IMMEDIATELY switch pin to INPUT to catch the incoming echo
+  pinMode(pin, INPUT);
+
+  // Step 3: Measure the duration of the incoming HIGH pulse (timeout set to 30ms / 30000us)
+  long duration = pulseIn(pin, HIGH, 30000);
+
+  // If pulseIn times out (returns 0), return -1 to signal out of range
+  if (duration == 0) {
+    return -1.0;
+  }
+
+  // Step 4: Calculate the distance in centimeters
+  // Sound travels at ~343 m/s, which is 0.0343 cm per microsecond.
+  // We divide by 2 because the wave travels to the object and back because it is a round trip time.
+  float distanceCm = (duration * 0.0343) / 2.0;
+
+  return distanceCm;
+}
