@@ -1,3 +1,22 @@
+/*
+
+We are using sensor connection with ESP32 like following diagram. we are using single pin for trigger and echo per sensor due to we dont have more spare pins (switching output & input same pin).
+
+   HC-SR04 (5V Sensor)                     ESP32-CAM / ESP32 (3.3V)
+   +-----------------------+               +-----------------------+
+
+   |  VCC -----------------+---------------> 5V                    |
+   |                       |               |                       |
+   |  TRIG ----------------+---------------> GPIO Pin (e.g., GPIO pin)|
+   |         |             |               |       |               |
+   |         | [10kΩ Resistor]             |       | [22kΩ Resistor]
+   |         |             |               |       |               |
+   |  ECHO --+             |               |       v               |
+   |                       |               |      GND              |
+   |  GND -----------------+---------------+-----------------------|
+   +-----------------------+               +-----------------------+
+*/
+
 // Define the single GPIO pins used for each sensor
 // Change these numbers to match your actual ESP32 wiring
 const int SENSOR1_PIN = 13; 
